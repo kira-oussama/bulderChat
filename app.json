@@ -1,0 +1,35 @@
+{
+    "name": "bulderchat",
+    "description": "nodejs chatroom api.",
+    "keywords": [
+        "chatroom",
+        "nodejs",
+        "api"
+      ],
+    "repository": "https://github.com/kira-oussama/bulderChat",
+    "env": {
+      "JWT_PRIVATE_KEY": {
+        "description": "A secret key for verifying the integrity of signed web tokens.",
+        "generator": "secret"
+      },
+      "PORT": {
+        "description": "The port number for server to run.",
+        "value": 80
+      },
+      "ATLAS_DB_PW": {
+        "description": "mongo db password.",
+        "value": "kiraoussama"
+      },
+      "ATLAS_DB_NAME": {
+        "description": "mongo db username.",
+        "value": "kiraoussama"
+      }
+    },
+    "addons": [
+      "openredis",
+      {
+        "plan": "mongolab:shared-single-small",
+        "as": "MONGO"
+      }
+    ]
+}
