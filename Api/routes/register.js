@@ -34,12 +34,7 @@ const userAuth = require('./../middleware/userAuth');
 router.post('/register', storage.single('avatarImg'), userController.register);
 router.post('/login', userController.login);
 router.get('/', userAuth, (req, res)=>{
-    res.status(200).json({
-        "port": process.env.PORT,
-        "ATLAS_DB_PW": process.env.ATLAS_DB_PW,
-        "ATLAS_DB_NAME": process.env.ATLAS_DB_NAME,
-        "JWT_PRIVATE_KEY": process.env.JWT_PRIVATE_KEY,
-    });
+    res.status(200).json({data : req.userData});
 })
 
 

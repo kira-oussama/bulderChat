@@ -67,7 +67,7 @@ const login = (req, res)=>{
             .then(isauth=>{
                 if(isauth){
                     jwt.sign({"pseudoName":response.pseudoName, "sexe": response.sexe, "_id": response._id}, process.env.JWT_PRIVATE_KEY, (err, token)=>{
-                        res.status(200).json({response, token});
+                        res.status(200).json({token});
                     });
                 }else{
                     res.status(401).json({message: "your credentials are not correct"});
