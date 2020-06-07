@@ -70,11 +70,11 @@ const login = (req, res)=>{
                         res.status(200).json({token});
                     });
                 }else{
-                    res.status(401).json({message: "your credentials are not correct"});
+                    res.status(200).json({message: "your credentials are not correct"});
                 }
             })
         }else{
-            res.status(401).json({error : "your credentials are not correct"})
+            res.status(200).json({error : "your credentials are not correct"})
         }
     })
     .catch(err=>{
