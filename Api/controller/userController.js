@@ -66,7 +66,7 @@ const login = (req, res)=>{
             bcrypt.compare(req.body.password, response.password)
             .then(isauth=>{
                 if(isauth){
-                    jwt.sign({"pseudoName":response.pseudoName, "sexe": response.sexe, "_id": response._id}, process.env.JWT_PRIVATE_KEY, (err, token)=>{
+                    jwt.sign({"pseudoName":response.pseudoName, "sexe": response.sexe, "_id": response._id, "avatar": response.avatar}, process.env.JWT_PRIVATE_KEY, (err, token)=>{
                         res.status(200).json({token});
                     });
                 }else{
