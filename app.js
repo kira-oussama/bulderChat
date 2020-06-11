@@ -6,16 +6,21 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-
 //express app
 const app = express();
 
-//enable for all
-app.use(cors());
+
+//cors
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 ,
+  credentials: true
+}
+app.use(cors(corsOptions));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
- 
+
 // parse application/json
 app.use(bodyParser.json())
 
@@ -32,6 +37,6 @@ const registerRouter = require('./Api/routes/register');
 
 //routers
 app.use('/user', registerRouter);
-
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 module.exports = app;

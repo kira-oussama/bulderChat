@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 //models
 const User = require('../models/User');
+const Message = require('../models/Message');
 
 const register = (req,res)=>{
     if(req.body.password < 4 || req.body.password > 30 ){
@@ -82,4 +83,20 @@ const login = (req, res)=>{
     })
 }
 
-module.exports = {register,login};
+const saveMessage = (req, res)=>{
+    const msg = new Message({
+        sender: req.sender,
+        receiver: req.receiver,
+        message: req.message
+    });
+
+    msg.save()
+    .then(response=>{
+        console.log(response);
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+}
+
+module.exports = {register, login};
