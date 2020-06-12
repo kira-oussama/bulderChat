@@ -5,10 +5,11 @@ const jwt = require('jsonwebtoken');
 //models
 const User = require('../models/User');
 const Message = require('../models/Message');
+const { json } = require('body-parser');
 
 const register = (req,res)=>{
     if(req.body.password < 4 || req.body.password > 30 ){
-        res.status(401).json({error: "the password must be longer than 4 characters and less than 30 characters"});
+        res.status(200).json({error: "the password must be longer than 4 characters and less than 30 characters"});
     }
 
     bcrypt.hash(req.body.password, 10, (err, hash)=>{        
@@ -85,18 +86,37 @@ const login = (req, res)=>{
 
 const saveMessage = (req, res)=>{
     const msg = new Message({
-        sender: req.sender,
-        receiver: req.receiver,
-        message: req.message
+        sender: req.body.sender,
+        receiver: req.body.receiver,
+        message: req.body.message
     });
 
     msg.save()
     .then(response=>{
-        console.log(response);
+        res.json(response);
     })
     .catch(err=>{
-        console.log(err);
+        res.status(503).json(err);
     })
+
 }
 
-module.exports = {register, login, saveMessage};
+const seenMessage = (req, res)=>{
+    Message.updateMany({sender: req.body.sender, receiver: req.body.receiver, seen:false}, {seen: true},(err,response)=>{
+        if(err) res.status(503).json(err);
+        res.status(200).json(response);
+    });
+}
+
+
+const loadMessage = (req, res)=>{
+    Message.find({$or: [{sender: req.body.sender, receiver: req.body.receiver},{sender: req.body.receiver, receiver: req.body.sender}]})
+    .limit(15)
+    .sort({'createdAt': "desc"})
+    .exec().then(response=>{
+        res.status(200).json(response)
+    })
+    .catch(err=>console.log(err))
+}
+
+module.exports = {register, login, saveMessage, seenMessage, loadMessage};

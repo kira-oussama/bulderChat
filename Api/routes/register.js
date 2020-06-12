@@ -33,7 +33,9 @@ const userAuth = require('./../middleware/userAuth');
 //routes
 router.post('/register', storage.single('avatarImg'), userController.register);
 router.post('/login', userController.login);
-router.post('/message', userController.saveMessage);
+router.post('/message', userAuth, userController.saveMessage);
+router.post('/messageSeen', userAuth, userController.seenMessage);
+router.post('/loadMsg', userAuth, userController.loadMessage);
 router.get('/', userAuth, (req, res)=>{
     res.status(200).json({data : req.userData});
 })
