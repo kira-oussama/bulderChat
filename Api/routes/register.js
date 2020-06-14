@@ -1,5 +1,6 @@
 //imports
 const express = require('express');
+const { check } = require('express-validator');
 const router = express.Router();
 const multer = require('multer');
 
@@ -31,7 +32,13 @@ const userController = require('./../controller/userController');
 const userAuth = require('./../middleware/userAuth');
 
 //routes
-router.post('/register', storage.single('avatarImg'), userController.register);
+router.post('/register', storage.single('avatarImg'), [
+    check("pseudoName").isLength({min: 4, max:30}).withMessage("Username must be greater than 4 characters and less than 30 characters"),
+    check("password").isLength({min: 4, max:30}).withMessage("Password must be greater than 4 characters and less than 30 characters"),
+    check("sexe").isIn(["male", "female"]).withMessage("gender must be male or female")
+], userController.register);
+
+
 router.post('/login', userController.login);
 router.post('/message', userAuth, userController.saveMessage);
 router.post('/messageSeen', userAuth, userController.seenMessage);

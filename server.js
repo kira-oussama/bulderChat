@@ -19,7 +19,7 @@ var usersOnline = [];
 io.on('connection', (socket) => {
     //handle users when connect
     socket.on('username', (username) => {
-        usersOnline.push({id: socket.id, username});
+        usersOnline.push({id: socket.id, username: username.pseudoName, avatar: username.avatar });
         io.emit('usersOnline', usersOnline);
         socket.emit('usersOnline', usersOnline)
         // console.log(usersOnline)
